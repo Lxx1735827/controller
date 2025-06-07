@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/Rain.png</file>
+        <file>image/Mountain.png</file>
+        <file>image/Ladar.png</file>
+        <file>image/DroneB.png</file>
+        <file>image/DroneR.png</file>
+        <file>image/DroneR2.png</file>
+        <file>image/DroneB2.png</file>
+    </qresource>
+</RCC>
