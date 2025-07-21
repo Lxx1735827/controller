@@ -30,6 +30,7 @@ private slots:
     void on_left_clicked();
     void on_right_clicked();
     void on_stop_clicked();
+    void setTable();
 
 private:
     Ui::MainWindow *ui;
