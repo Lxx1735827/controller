@@ -3,6 +3,7 @@
 #include <QFileInfo>
 #include <QRegularExpression>
 #include <QColor>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -69,6 +70,8 @@ MainWindow::MainWindow(QWidget *parent)
             CtrlGram gram(targetID, dx * 50, dy * 50);  // 可以调节乘数控制灵敏度
             qDebug()<<"发送"<<targetID<<" "<<dx * 50<<" "<<dy * 50;
             m_connector->sendData(gram);
+        }else if(ui->stateContent->text()=="running"){
+            QMessageBox::warning(this, "未选择目标", "请先在右上方下拉框中选择一个目标无人机！");
         }
 
     });
@@ -106,6 +109,8 @@ void MainWindow::on_up_clicked()
     if(ui->targetDrone->currentText()!="--"){
         CtrlGram gram = CtrlGram(ui->targetDrone->currentText(), 0, -50);
         m_connector->sendData(gram);
+    }else if(ui->stateContent->text()=="running"){
+        QMessageBox::warning(this, "未选择目标", "请先在右上方下拉框中选择一个目标无人机！");
     }
 
 }
@@ -114,6 +119,8 @@ void MainWindow::on_down_clicked()
     if(ui->targetDrone->currentText()!="--"){
         CtrlGram gram = CtrlGram(ui->targetDrone->currentText(), 0, 50);
         m_connector->sendData(gram);
+    }else if(ui->stateContent->text()=="running"){
+        QMessageBox::warning(this, "未选择目标", "请先在右上方下拉框中选择一个目标无人机！");
     }
 
 }
@@ -122,6 +129,8 @@ void MainWindow::on_left_clicked()
     if(ui->targetDrone->currentText()!="--"){
         CtrlGram gram = CtrlGram(ui->targetDrone->currentText(), -50, 0);
         m_connector->sendData(gram);
+    }else if(ui->stateContent->text()=="running"){
+        QMessageBox::warning(this, "未选择目标", "请先在右上方下拉框中选择一个目标无人机！");
     }
 
 }
@@ -130,6 +139,8 @@ void MainWindow::on_right_clicked()
     if(ui->targetDrone->currentText()!="--"){
         CtrlGram gram = CtrlGram(ui->targetDrone->currentText(), 50, 0);
         m_connector->sendData(gram);
+    }else if(ui->stateContent->text()=="running"){
+        QMessageBox::warning(this, "未选择目标", "请先在右上方下拉框中选择一个目标无人机！");
     }
 
 }
@@ -138,6 +149,8 @@ void MainWindow::on_stop_clicked()
     if(ui->targetDrone->currentText()!="--"){
         CtrlGram gram = CtrlGram(ui->targetDrone->currentText(), 0, 0);
         m_connector->sendData(gram);
+    }else if(ui->stateContent->text()=="running"){
+        QMessageBox::warning(this, "未选择目标", "请先在右上方下拉框中选择一个目标无人机！");
     }
 }
 
@@ -219,11 +232,23 @@ void MainWindow::setContent(const GameGram& gram) {
                 int uid = drone._uid[1].toLatin1() - '0';
                 ui->tableDrone->setItem(uid, 2, new QTableWidgetItem(QString::number(drone._hp)));
                 ui->tableDrone->setItem(uid, 3, new QTableWidgetItem(drone._status));
+                for (int col = 0; col < ui->tableDrone->columnCount(); ++col) {
+                    QTableWidgetItem* item = ui->tableDrone->item(uid, col);
+                    if (item) {
+                        item->setForeground(QBrush(Qt::blue));
+                    }
+                }
             }else{
                 int uid = drone._uid[1].toLatin1() - '0';
                 uid+=3;
                 ui->tableDrone->setItem(uid, 2, new QTableWidgetItem(QString::number(drone._hp)));
                 ui->tableDrone->setItem(uid, 3, new QTableWidgetItem(drone._status));
+                for (int col = 0; col < ui->tableDrone->columnCount(); ++col) {
+                    QTableWidgetItem* item = ui->tableDrone->item(uid, col);
+                    if (item) {
+                        item->setForeground(QBrush(Qt::red));
+                    }
+                }
             }
         }
     }
