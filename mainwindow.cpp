@@ -157,7 +157,7 @@ void MainWindow::on_stop_clicked()
 void MainWindow::setTable(){
     for(int i=0;i<3;i++){
         ui->tableDrone->insertRow(i);
-        ui->tableDrone->setItem(i, 0, new QTableWidgetItem("B"+QString::number(i)));
+        ui->tableDrone->setItem(i, 0, new QTableWidgetItem("B"+QString::number(i+1)));
         ui->tableDrone->setItem(i, 1, new QTableWidgetItem("B"));
         ui->tableDrone->setItem(i, 2, new QTableWidgetItem(QString::number(100)));
         ui->tableDrone->setItem(i, 3, new QTableWidgetItem("alive"));
@@ -171,7 +171,7 @@ void MainWindow::setTable(){
     }
     for(int i=3;i<6;i++){
         ui->tableDrone->insertRow(i);
-        ui->tableDrone->setItem(i, 0, new QTableWidgetItem("R"+QString::number(i-3)));
+        ui->tableDrone->setItem(i, 0, new QTableWidgetItem("R"+QString::number(i-2)));
         ui->tableDrone->setItem(i, 1, new QTableWidgetItem("R"));
         ui->tableDrone->setItem(i, 2, new QTableWidgetItem(QString::number(100)));
         ui->tableDrone->setItem(i, 3, new QTableWidgetItem("alive"));
@@ -223,13 +223,13 @@ void MainWindow::setContent(const GameGram& gram) {
             C1->setVisible(true);
         }
     }
-    qDebug()<<"表格行数"<<ui->tableDrone->rowCount();
     if(ui->tableDrone->rowCount() == 0){
          setTable();
     }else{
         for (const auto& drone : gram._drones){
             if(drone._team=="B"){
                 int uid = drone._uid[1].toLatin1() - '0';
+                uid-=1;
                 ui->tableDrone->setItem(uid, 2, new QTableWidgetItem(QString::number(drone._hp)));
                 ui->tableDrone->setItem(uid, 3, new QTableWidgetItem(drone._status));
                 for (int col = 0; col < ui->tableDrone->columnCount(); ++col) {
@@ -240,7 +240,7 @@ void MainWindow::setContent(const GameGram& gram) {
                 }
             }else{
                 int uid = drone._uid[1].toLatin1() - '0';
-                uid+=3;
+                uid+=2;
                 ui->tableDrone->setItem(uid, 2, new QTableWidgetItem(QString::number(drone._hp)));
                 ui->tableDrone->setItem(uid, 3, new QTableWidgetItem(drone._status));
                 for (int col = 0; col < ui->tableDrone->columnCount(); ++col) {
@@ -249,6 +249,7 @@ void MainWindow::setContent(const GameGram& gram) {
                         item->setForeground(QBrush(Qt::red));
                     }
                 }
+                qDebug()<<"修改了第"<<uid<<"行为红色";
             }
         }
     }
