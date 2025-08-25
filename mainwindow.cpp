@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     M1->resize(20, 20);
     M1->setFlat(true);
     M1->setStyleSheet("QPushButton{border:none;background:transparent;}");
-    M1->setIcon(QIcon("://image/Mountain.png"));
+    M1->setIcon(QIcon("://image/Rain.png"));
     M1->setVisible(false);
     R1 = new QPushButton(ui->widget);
     R1->resize(20, 20);
@@ -211,7 +211,7 @@ void MainWindow::setContent(const GameGram& gram) {
     R1->setVisible(false);
     C1->setVisible(false);
     for (const auto& obj: gram._obstacles){
-        if(obj._id=="M1"){
+        if(obj._id=="C2"){
             M1->move(obj._x/1280*391-10, obj._y/800*241-10);
             M1->setVisible(true);
         }else if(obj._id=="R1"){
